@@ -119,6 +119,38 @@ class DLL{
         head=prevNode;
         printList();
     }
+    Node partition(Node start, Node end){
+        Node nodeI=start;
+        Node nodeJ=start;
+        int pivot=end.data;
+        while(nodeJ!=end){
+            if(nodeJ.data<pivot){
+                int temp=nodeI.data;
+                nodeI.data=nodeJ.data;
+                nodeJ.data=temp;
+                nodeI=nodeI.next;
+            }
+            nodeJ=nodeJ.next;
+        }
+        int temp=nodeI.data;
+        nodeI.data=pivot;
+        end.data=temp;
+        return nodeI;
+    }
+
+    // Function : 8
+    void quickSort(Node start, Node end){
+        if(start==end || start==null || start==end.next){
+            return;
+        }
+        Node pivotNode=partition(start, end);
+        if(pivotNode.prev==null){
+            quickSort(head.next, end);
+        }else{
+            quickSort(start, pivotNode.prev);
+            quickSort(pivotNode.next, end);
+        }
+    }
     // Function : 2
     // prints the linked list (doubly)
     void printList(){
@@ -145,5 +177,14 @@ public class AllOperationsDLL {
         list.reverse();
         list.insertAfter(list.head.next.next, 9);
         list.deleteNode(list.head);
+        System.out.println("\nBefore Quick Sort: ");
+        list.printList();
+        System.out.println("\nAfter Quick Sort: ");
+        DLL.Node last=list.head;
+        while(last.next!=null){
+            last=last.next;
+        }
+        list.quickSort(list.head, last);
+        list.printList();
     }
 }
