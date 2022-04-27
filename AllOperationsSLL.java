@@ -451,6 +451,46 @@ class SLL{
         endOdd.next=null;
         head=startEven;
     }
+
+    Node partition(Node start, Node end){
+        // it is the node that is the greatest element from the left
+        Node nodeI=start;
+        // for going through the list
+        Node nodeJ=start;
+        int pivot=end.data;
+        // is node prior to the pivot node
+        Node prev=null;
+        while(nodeJ!=end){
+            if(nodeJ.data<pivot){
+                int temp=nodeJ.data;
+                nodeJ.data=nodeI.data;
+                nodeI.data=temp;
+                prev=nodeI;
+                nodeI=nodeI.next;
+            }
+            nodeJ=nodeJ.next;
+        }
+        int temp=nodeI.data;
+        nodeI.data=pivot;
+        end.data=temp;
+        return prev;
+    }
+
+    void quickSort(Node start, Node end){
+        if(start==null || start==end || start==end.next){
+            return;
+        }
+        // node previous to the pivot node is returned
+        Node prevNode=partition(start, end);
+        // if prevNode is null, it means pivot element has been placed at the start and only one partition will be done and it will start from second node
+        if(prevNode==null){
+            quickSort(head.next, end);
+        }else{
+            // if prevNpde is not null, then two partitions are made and two calls are done
+            quickSort(start, prevNode);
+            quickSort(prevNode.next.next, end);
+        }
+    }
 }
 
 // main class
@@ -549,6 +589,14 @@ public class AllOperationsSLL {
         listIntersection=list.intersection(list1, list2);
         System.out.println("\nIntersetion of List1 and list2: ");
         listIntersection.printList();
-
+        SLL.Node last=list.head;
+        while(last.next!=null){
+            last=last.next;
+        }
+        System.out.println("\n\"list\" before Quick Sort: ");
+        list.printList();
+        list.quickSort(list.head, last);
+        System.out.println("\nLinked List \"list\" after Quick Sort:  ");
+        list.printList();
     }
 }
