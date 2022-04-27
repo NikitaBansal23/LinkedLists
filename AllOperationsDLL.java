@@ -119,8 +119,11 @@ class DLL{
         head=prevNode;
         printList();
     }
+    
     Node partition(Node start, Node end){
+        // will store the pivot node in the end
         Node nodeI=start;
+        // for comparing every node with the pivot data
         Node nodeJ=start;
         int pivot=end.data;
         while(nodeJ!=end){
