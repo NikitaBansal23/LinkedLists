@@ -120,6 +120,7 @@ class DLL{
         printList();
     }
     
+    // helper function of quickSort()
     Node partition(Node start, Node end){
         // will store the pivot node in the end
         Node nodeI=start;
@@ -164,6 +165,76 @@ class DLL{
             node=node.next;
         }
     }
+
+    // Function : 10
+    // returns length(number of nodes that make up a list) of the doubly linked list
+    int listLength(){
+        int count=0;
+        Node node=head;
+        while(node!=null){
+            count++;
+            node=node.next;
+        }
+        return count;
+    }
+
+    // Function : 11
+    // returns last node of the linked list
+    Node lastNode(){
+        Node last=head;
+        while(last.next!=null){
+            last=last.next;
+        }
+        return last;
+    }
+
+    // Function : 9
+    // swap kth node from the beginning with kth node from end in a linked list(doubly)
+    void swapKth(int k){
+        if(k>listLength()){
+            System.out.println("\nValue of k should not be greater than length of the linked list!!");
+            return;
+        }
+        Node node1=head, node2=lastNode();
+        for(int i=1;i<k;i++){
+            node1=node1.next;
+        }
+        for(int i=1;i<k;i++){
+            node2=node2.prev;
+        }
+        if(node1==node2){
+            System.out.println("\nNodes to be swapped are same, so not swapping is needed!!");
+            return;
+        }
+
+        // node previous to node1
+        Node node1prev=node1.prev;
+        // node after node1
+        Node node1next=node1.next;
+        // node previous to node2
+        Node node2prev=node2.prev;
+        // node after node2
+        Node node2next=node2.next;
+        
+        node1prev.next=node2;
+        node2prev.next=node1;
+        node1next.prev=node2;
+        node2next.prev=node1;
+        node1.next=node2next;
+        node1.prev=node2prev;
+        node2.next=node1next;
+        node2.prev=node1prev;
+
+        // if k is 1, head will be node2 after swapping so correcting its pointer
+        if(k==1){
+            head=node2;
+        }
+        // if k is length of the linked list, head will be node1 after swapping so correcting its pointer
+        if(k==listLength()){
+            head=node1;
+        }
+        printList();
+    }
 }
 public class AllOperationsDLL {
     public static void main(String[] args) {
@@ -189,5 +260,10 @@ public class AllOperationsDLL {
         }
         list.quickSort(list.head, last);
         list.printList();
+        System.out.println("\nLength of the linked list: "+list.listLength());
+        list.swapKth(4);
+        list.swapKth(8);
+        list.swapKth(3);
+        list.swapKth(5);
     }
 }
