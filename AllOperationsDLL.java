@@ -93,8 +93,7 @@ class DLL{
             return;
         }
         if(node.next==null){
-            node=node.prev;
-            node.next=null;
+            node.prev.next=null;
             return;
         }
         if(node.prev!=null && node.next!=null){
@@ -235,6 +234,95 @@ class DLL{
         }
         printList();
     }
+
+    // Function : 12
+    // Find pairs with given sum in a sorted doubly linked list
+    void pairSum(int sum){
+        Node first=head;
+        Node last=lastNode();
+        while(first!=last){
+            if(first.data+last.data<sum){
+                first=first.next;
+            }else if(first.data+last.data>sum){
+                last=last.prev;
+            }else{
+                System.out.println("("+first.data+","+last.data+")");
+                first=first.next;
+                last=last.prev;
+            }
+        }
+    }
+
+    // Function : 13
+    // inserts value in a sorted way in a sorted doubly linked list
+    void sortedInsert(int data){
+        Node first=head;
+        while(first.data<data && first.next!=null){
+            first=first.next;
+        }
+        if(first==head && first.data>=data){
+            push(data);
+            return;
+        }
+        if(first.next==null && first.data<=data){
+            append(data);
+            return;
+        }
+        Node node=new Node(data);
+        node.next=first;
+        node.prev=first.prev;
+        first.prev.next=node;
+        first.prev=node;
+        printList();
+    }
+
+    // Function : 14
+    // deletes a doubly linked list node at a given position
+    void deleteNodeAtGivenPos(int pos){
+        if(head==null || pos<1){
+            return;
+        }
+        Node node=head;
+        for(int i=1;i<pos && node!=null;i++){
+            node=node.next;
+        }
+        // if pos is greater than number of nodes
+        if(node==null){
+            return;
+        }
+        deleteNode(node);
+    }
+
+    // Function : 15
+    // remove duplicates from a sorted doubly linked list
+    void removeDuplicates(){
+        Node node=head;
+        Node temp=node.next;
+        while(temp!=null){
+            if(node.data==temp.data){
+                temp=temp.next;
+                deleteNode(node.next);
+            }else{
+                node=node.next;
+                temp=temp.next;
+            }
+        }
+        printList();
+    }
+
+    // Function : 16
+    // deletes all occurrences of the given key x from the doubly linked list
+    void deleteAllOccurOfx(int x){
+        Node node=head;
+        while(node!=null){
+            if(node.data==x){
+                node=node.next;
+                deleteNode(node.prev);
+            }else{
+                node=node.next;
+            }
+        }
+    }
 }
 public class AllOperationsDLL {
     public static void main(String[] args) {
@@ -261,9 +349,30 @@ public class AllOperationsDLL {
         list.quickSort(list.head, last);
         list.printList();
         System.out.println("\nLength of the linked list: "+list.listLength());
+        System.out.println("\nSwapping 4th node from front and end");
         list.swapKth(4);
+        System.out.println("\nSwapping 8th node from front and end");
         list.swapKth(8);
+        System.out.println("\nSwapping 3rd node from front and end");
         list.swapKth(3);
+        System.out.println("\nSwapping 5th node from front and end");
         list.swapKth(5);
+        System.out.println("\nAfter Quick Sort: ");
+        list.quickSort(list.head, last);
+        list.printList();
+        list.pairSum(10);
+        System.out.println();
+        list.sortedInsert(10);
+        list.sortedInsert(6);
+        list.deleteNodeAtGivenPos(1);
+        list.deleteNodeAtGivenPos(10);
+        list.deleteNodeAtGivenPos(6);
+        System.out.println("\n\n\nInserting 6");
+        list.sortedInsert(6);
+        System.out.println("\n\n\nInserting 2");
+        list.sortedInsert(2);
+        System.out.println("\n\n\nRemoving Duplicates");
+        list.removeDuplicates();
+        list.deleteAllOccurOfx(3);
     }
 }
